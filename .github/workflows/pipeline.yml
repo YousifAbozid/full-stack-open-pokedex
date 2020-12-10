@@ -56,15 +56,15 @@ jobs:
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+          fields: repo, message, commit, author, took # this is the message fields you will see, remove what you want
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: ${{ success() }}
-      - name: notify on failure
+      - name: notification on failure
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took # this is the message fields you will see, remove what you want
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: ${{ failure() }}
