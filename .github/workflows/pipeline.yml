@@ -52,3 +52,19 @@ jobs:
           WITH_V: true # to add letter v before version number
           DRY_RUN: false # if true it will print in the console next version number without creating or tagging the release!
           DEFAULT_BUMP: patch # to choose between major, minor or patch
+      - name: notification on success
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: ${{ success() }}
+      - name: notify on failure
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: ${{ failure() }}
