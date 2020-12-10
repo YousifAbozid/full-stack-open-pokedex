@@ -33,20 +33,20 @@ jobs:
           start: npm run start-prod
           wait-on: http://localhost:5000
       - name: deploy to heroku
-        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }} # this won't deploy if the commit message has #skip in it and if the commit doesn't happen from PR
         uses: akhileshns/heroku-deploy@v3.7.8 # This is the action
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: pokedex12 # Must be unique in Heroku
           heroku_email: yousif.abozid@yahoo.com
           healthcheck: https://pokedex12.herokuapp.com/version
-          checkstring: 5
+          checkstring: 6
           delay: 5 # to ensure that heroku is ready for health check after the deployment
           rollbackonhealthcheckfailed: true # to roll back to the previous version if the health check fails
       - uses: actions/checkout@v2
       - name: Bump version and push tag
-        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
-        uses: anothrNick/github-tag-action@1.33.0
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }} # this won't add version tag if the commit message has #skip in it and if the commit doesn't happen from PR
+        uses: anothrNick/github-tag-action@eca2b69f9e2c24be7decccd0f15fdb1ea5906598
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true # to add letter v before version number
