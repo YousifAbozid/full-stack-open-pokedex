@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
@@ -34,10 +36,18 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         uses: akhileshns/heroku-deploy@v3.7.8 # This is the action
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: pokedex12 # Must be unique in Heroku
           heroku_email: yousif.abozid@yahoo.com
           healthcheck: https://pokedex12.herokuapp.com/version
           checkstring: 4
           delay: 5 # to ensure that heroku is ready for health check after the deployment
           rollbackonhealthcheckfailed: true # to roll back to the previous version if the health check fails
+      - name: Bump version and push tag
+        if: ${{ github.event_name == 'push' }}
+        uses: anothrNick/github-tag-action@1.33.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DRY_RUN: true
+          DEFAULT_BUMP: patch
