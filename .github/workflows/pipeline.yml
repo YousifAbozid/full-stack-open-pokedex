@@ -62,12 +62,13 @@ jobs:
               username: 'action-slack',
               icon_emoji: ':octocat:',
               attachments: [{
+                color: 'good',
                 text: `Deployed Successfully to https://pokedex12.herokuapp.com/ (${process.env.AS_COMMIT}) by ${process.env.AS_AUTHOR} succeeded in ${process.env.AS_TOOK}`
               }]
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: ${{ success() }}
+        if: ${{ success() && github.event_name == 'push' }} # execute only from pushing to the master not from PR
       - name: notification on failure
         uses: 8398a7/action-slack@v3
         with:
