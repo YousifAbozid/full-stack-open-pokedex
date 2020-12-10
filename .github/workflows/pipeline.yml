@@ -43,6 +43,7 @@ jobs:
           checkstring: 5
           delay: 5 # to ensure that heroku is ready for health check after the deployment
           rollbackonhealthcheckfailed: true # to roll back to the previous version if the health check fails
+      - uses: actions/checkout@v2
       - name: Bump version and push tag
         if: ${{ github.event_name == 'push' }}
         uses: anothrNick/github-tag-action@1.33.0
