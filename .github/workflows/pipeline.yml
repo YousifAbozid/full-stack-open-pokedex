@@ -36,4 +36,4 @@ jobs:
           healthcheck: https://pokedex12.herokuapp.com/version
           checkstring: 1
           delay: 5 # to ensure that heroku is ready for health check after the deployment
-          rollbackonhealthcheckfailed: true # to roll back to thw previous version if the health check fails
+          rollbackonhealthcheckfailed: true # to roll back to the previous version if the health check fails
