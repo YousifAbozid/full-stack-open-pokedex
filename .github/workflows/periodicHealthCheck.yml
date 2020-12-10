@@ -1,0 +1,20 @@
+name: Perioding Health Check
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron:  '*/5 * * * *' # this gonna make it every five mins
+
+jobs:
+  health_check:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check the deployed service URL
+        uses: jtalk/url-health-check-action@v1.2
+        with:
+          url: https://pokedex12.herokuapp.com/version # url to check, you can add several urls by adding | between them.
+          max-attempts: 3 # Optional, defaults to 1
+          # Delay between retries
+          retry-delay: 5s # Optional, only applicable to max-attempts > 1
