@@ -37,6 +37,6 @@ jobs:
           heroku_app_name: pokedex12 # Must be unique in Heroku
           heroku_email: yousif.abozid@yahoo.com
           healthcheck: https://pokedex12.herokuapp.com/version
-          checkstring: 4
+          checkstring: 5
           delay: 5 # to ensure that heroku is ready for health check after the deployment
           rollbackonhealthcheckfailed: true # to roll back to the previous version if the health check fails
