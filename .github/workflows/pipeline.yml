@@ -55,8 +55,16 @@ jobs:
       - name: notification on success
         uses: 8398a7/action-slack@v3
         with:
-          status: ${{ job.status }}
-          fields: repo, message, commit, author, took # this is the message fields you will see, remove what you want
+          status: custom
+          fields: commit, author, took # this is the message fields you will see, remove what you want
+          custom_payload: |
+            {
+              username: 'action-slack',
+              icon_emoji: ':octocat:',
+              attachments: [{
+                text: `Deployed Successfully to https://pokedex12.herokuapp.com/ (${process.env.AS_COMMIT}) by ${process.env.AS_AUTHOR} succeeded in ${process.env.AS_TOOK}`
+              }]
+            }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: ${{ success() }}
@@ -64,7 +72,7 @@ jobs:
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took # this is the message fields you will see, remove what you want
+          fields: repo, message, commit, author, took # this is the message fields you will see, remove what you want
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: ${{ failure() }}
