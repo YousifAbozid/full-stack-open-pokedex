@@ -43,15 +43,15 @@ jobs:
           checkstring: 7
           delay: 5 # to ensure that heroku is ready for health check after the deployment
           rollbackonhealthcheckfailed: true # to roll back to the previous version if the health check fails
-      - uses: actions/checkout@v2
-      - name: Bump version and push tag
-        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }} # this won't add version tag if the commit message has #skip in it and if the commit doesn't happen from PR
-        uses: anothrNick/github-tag-action@eca2b69f9e2c24be7decccd0f15fdb1ea5906598
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true # to add letter v before version number
-          DRY_RUN: false # if true it will print in the console next version number without creating or tagging the release!
-          DEFAULT_BUMP: patch # to choose between major, minor or patch
+      #- uses: actions/checkout@v2
+      #- name: Bump version and push tag
+       # if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }} # this won't add version tag if the commit message has #skip in it and if the commit doesn't happen from PR
+        #uses: anothrNick/github-tag-action@eca2b69f9e2c24be7decccd0f15fdb1ea5906598
+        #env:
+         # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          #WITH_V: true # to add letter v before version number
+          #DRY_RUN: false # if true it will print in the console next version number without creating or tagging the release!
+          #DEFAULT_BUMP: patch # to choose between major, minor or patch
       - name: notification on success
         uses: 8398a7/action-slack@v3
         with:
